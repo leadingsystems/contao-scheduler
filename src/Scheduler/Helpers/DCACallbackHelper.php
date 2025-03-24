@@ -1,6 +1,6 @@
 <?php
 
-namespace LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\Helpers;
+namespace LeadingSystems\ContaoSchedulerBundle\Scheduler\Helpers;
 
 use Contao\DataContainer;
 use Cron\CronExpression;

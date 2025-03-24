@@ -1,11 +1,11 @@
 <?php
 
-namespace Merconis\CustomStarterbase;
+namespace Merconis\ContaoScheduler;
 
-use LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\Models\SchedulerJobModel;
+use LeadingSystems\ContaoSchedulerBundle\Scheduler\Models\SchedulerJobModel;
 
 if (TL_MODE == 'BE') {
-	$GLOBALS['TL_CSS'][] = 'bundles/leadingsystemsmerconiscustom/be/css/style.css';
+	$GLOBALS['TL_CSS'][] = 'bundles/leadingsystemscontaoscheduler/be/css/style.css';
 }
 
 $GLOBALS['BE_MOD']['merconis_custom'] = array(
@@ -15,10 +15,10 @@ $GLOBALS['BE_MOD']['merconis_custom'] = array(
 );
 
 // MODELS
-$GLOBALS['TL_MODELS']['tl_merconis_custom_scheduler_job'] = SchedulerJobModel::class;
+$GLOBALS['TL_MODELS']['tl_ls_scheduler_job'] = SchedulerJobModel::class;
 
 // API
-$GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'][] = array('LeadingSystems\MerconisCustomStarterbaseBundle\API\APIGeneral', 'processRequest');
+$GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'][] = array('LeadingSystems\ContaoSchedulerBundle\API\APIGeneral', 'processRequest');
 
 
 //$GLOBALS['MERCONIS_HOOKS']['afterCheckout'][] = array('Merconis\CustomStarterbase\merconis_custom_helper', 'merconis_hook_afterCheckout');

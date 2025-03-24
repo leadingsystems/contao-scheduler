@@ -1,8 +1,8 @@
 <?php
 
-namespace LeadingSystems\MerconisCustomStarterbaseBundle\Dummy;
+namespace LeadingSystems\ContaoSchedulerBundle\Dummy;
 
-use LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\Traits\SchedulableTrait;
+use LeadingSystems\ContaoSchedulerBundle\Scheduler\Traits\SchedulableTrait;
 
 class DummySchedulable
 {

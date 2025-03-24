@@ -1,11 +1,11 @@
 <?php
 
-namespace LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler;
+namespace LeadingSystems\ContaoSchedulerBundle\Scheduler;
 
 use Cron\CronExpression;
-use LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\Exception\SchedulerExecutionResultException;
-use LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\Models\SchedulerJobModel;
-use LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\Traits\SchedulableTrait;
+use LeadingSystems\ContaoSchedulerBundle\Scheduler\Exception\SchedulerExecutionResultException;
+use LeadingSystems\ContaoSchedulerBundle\Scheduler\Models\SchedulerJobModel;
+use LeadingSystems\ContaoSchedulerBundle\Scheduler\Traits\SchedulableTrait;
 
 class SchedulerDispatcher
 {

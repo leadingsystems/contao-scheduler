@@ -1,2 +1,2 @@
-Leading Systems Merconis Custom Starterbase changelog
+Leading Systems Contao Scheduler changelog
 ===========================================

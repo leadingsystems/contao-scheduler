@@ -1,12 +1,12 @@
 <?php
 
-namespace Merconis\CustomStarterbase;
+namespace Merconis\ContaoScheduler;
 
 use Contao\Backend;
 use Contao\BackendUser;
 use Contao\System;
 
-$GLOBALS['TL_DCA']['tl_merconis_custom_scheduler_job'] = array(
+$GLOBALS['TL_DCA']['tl_ls_scheduler_job'] = array(
 	'config' => array(
 		'dataContainer' => 'Table',
 		'sql' => array
@@ -44,17 +44,17 @@ $GLOBALS['TL_DCA']['tl_merconis_custom_scheduler_job'] = array(
 		
 		'operations' => array(
 			'edit' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['edit'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['edit'],
 				'href'                => 'act=edit',
 				'icon'                => 'edit.gif'
 			),
 			'copy' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['copy'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['copy'],
 				'href'                => 'act=copy',
 				'icon'                => 'copy.gif'
 			),
 			'delete' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['delete'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['delete'],
 				'href'                => 'act=delete',
 				'icon'                => 'delete.gif',
 				'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
@@ -64,7 +64,7 @@ $GLOBALS['TL_DCA']['tl_merconis_custom_scheduler_job'] = array(
                 'icon'                => 'visible.svg'
             ),
 			'show' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['show'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['show'],
 				'href'                => 'act=show',
 				'icon'                => 'show.gif'
 			)
@@ -87,7 +87,7 @@ $GLOBALS['TL_DCA']['tl_merconis_custom_scheduler_job'] = array(
 		),
 		'title' => array
 		(
-			'label' => &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['title'],
+			'label' => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['title'],
 			'exclude' => true,
 			'search' => true,
 			'sorting' => true,
@@ -103,14 +103,14 @@ $GLOBALS['TL_DCA']['tl_merconis_custom_scheduler_job'] = array(
 
 		'description' => array
 		(
-			'label' => &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['description'],
+			'label' => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['description'],
 			'exclude' => true,
 			'inputType' => 'textarea',
 			'sql' => "text NULL"
 		),
 
         'active' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['active'],
+            'label' => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['active'],
             'exclude' => true,
             'toggle' => true,
             'filter' => true,
@@ -121,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_merconis_custom_scheduler_job'] = array(
 
 		'cronExpression' => array
 		(
-			'label' => &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['cronExpression'],
+			'label' => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['cronExpression'],
 			'exclude' => true,
 			'inputType' => 'text',
 			'eval' => array(
@@ -133,7 +133,7 @@ $GLOBALS['TL_DCA']['tl_merconis_custom_scheduler_job'] = array(
 		),
 
         'tstampLastRun' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['tstampLastRun'],
+            'label' => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['tstampLastRun'],
             'exclude' => true,
             'inputType' => 'text',
             'eval' => ['tl_class' => 'w50', 'rgxp' => 'datim', 'datepicker' => true],
@@ -142,7 +142,7 @@ $GLOBALS['TL_DCA']['tl_merconis_custom_scheduler_job'] = array(
 
         'scriptToExecute' => array
         (
-            'label' =>  &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['scriptToExecute'],
+            'label' =>  &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['scriptToExecute'],
             'exclude'                 => true,
             'inputType'               => 'select',
             'eval'					  => array('tl_class' => 'clr', 'includeBlankOption' => true),
@@ -150,7 +150,7 @@ $GLOBALS['TL_DCA']['tl_merconis_custom_scheduler_job'] = array(
         ),
 
         'currentlyRunning' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['currentlyRunning'],
+            'label' => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['currentlyRunning'],
             'exclude' => true,
             'toggle' => true,
             'filter' => true,
@@ -160,7 +160,7 @@ $GLOBALS['TL_DCA']['tl_merconis_custom_scheduler_job'] = array(
         ],
 
         'lastExecutionResult' => [
-            'label' =>  &$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['lastExecutionResult'],
+            'label' =>  &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['lastExecutionResult'],
             'exclude' => true,
             'inputType' => 'textarea',
             'eval' => ['tl_class' => 'clr', 'allowHtml' => true],
