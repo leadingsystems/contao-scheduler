@@ -2,7 +2,7 @@
 
 namespace LeadingSystems\ContaoSchedulerBundle\Dummy;
 
-use LeadingSystems\ContaoSchedulerBundle\Scheduler\Traits\SchedulableTrait;
+use LeadingSystems\ContaoSchedulerBundle\Traits\SchedulableTrait;
 
 class DummySchedulable
 {

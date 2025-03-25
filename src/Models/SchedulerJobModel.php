@@ -1,5 +1,5 @@
 <?php
-namespace LeadingSystems\ContaoSchedulerBundle\Scheduler\Models;
+namespace LeadingSystems\ContaoSchedulerBundle\Models;
 
 use Contao\Model;
 

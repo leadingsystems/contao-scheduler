@@ -11,25 +11,25 @@ services:
 
   LeadingSystems\ContaoSchedulerBundle\Cronjob\CronDispatcher:
     arguments:
-      - '@LeadingSystems\ContaoSchedulerBundle\Scheduler\SchedulerDispatcher'
+      - '@LeadingSystems\ContaoSchedulerBundle\SchedulerDispatcher'
     tags:
       - { name: contao.cronjob, interval: minutely, method: dispatchScheduler }
 
-  LeadingSystems\ContaoSchedulerBundle\Scheduler\SchedulerDispatcher:
+  LeadingSystems\ContaoSchedulerBundle\SchedulerDispatcher:
     # must only be public during development so that it can be used in apiResource_hotwireSchedulerDispatcher
     public: true
     arguments:
-      - !tagged_iterator contao_scheduler.schedulable
+      - !tagged_iterator ls_scheduler.schedulable
 
-  LeadingSystems\ContaoSchedulerBundle\Scheduler\Helpers\DCACallbackHelper:
+  LeadingSystems\ContaoSchedulerBundle\Helpers\DCACallbackHelper:
     arguments:
-      - !tagged_iterator contao_scheduler.schedulable
+      - !tagged_iterator ls_scheduler.schedulable
     tags:
-      - { name: contao.callback, table: tl_merconis_custom_scheduler_job, target: fields.scriptToExecute.options, method: getScriptsForSchedulerExecutionAsOptions }
-      - { name: contao.callback, table: tl_merconis_custom_scheduler_job, target: fields.cronExpression.save, method: cronExpressionBackendFieldValidation }
-      - { name: contao.callback, table: tl_merconis_custom_scheduler_job, target: list.label.label, method: getSchedulerJobBackendListLabel }
+      - { name: contao.callback, table: tl_ls_scheduler_job, target: fields.scriptToExecute.options, method: getScriptsForSchedulerExecutionAsOptions }
+      - { name: contao.callback, table: tl_ls_scheduler_job, target: fields.cronExpression.save, method: cronExpressionBackendFieldValidation }
+      - { name: contao.callback, table: tl_ls_scheduler_job, target: list.label.label, method: getSchedulerJobBackendListLabel }
 
   # Schedulable services -->
   LeadingSystems\ContaoSchedulerBundle\Dummy\DummySchedulable:
     tags:
-      - { name: contao_scheduler.schedulable }
+      - { name: ls_scheduler.schedulable }

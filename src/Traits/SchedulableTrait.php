@@ -1,5 +1,5 @@
 <?php
-namespace LeadingSystems\ContaoSchedulerBundle\Scheduler\Traits;
+namespace LeadingSystems\ContaoSchedulerBundle\Traits;
 
 trait SchedulableTrait {
     protected string $executionResultMessage = '';

@@ -1,6 +1,6 @@
 <?php
 
-namespace LeadingSystems\ContaoSchedulerBundle\Scheduler\Helpers;
+namespace LeadingSystems\ContaoSchedulerBundle\Helpers;
 
 use Contao\DataContainer;
 use Cron\CronExpression;
@@ -17,7 +17,7 @@ class DCACallbackHelper
     public function cronExpressionBackendFieldValidation($value, DataContainer $dc): mixed
     {
         if (!CronExpression::isValidExpression($value)) {
-            throw new \Exception($GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['misc']['invalidCronExpressionErrorMessage']);
+            throw new \Exception($GLOBALS['TL_LANG']['tl_ls_scheduler_job']['misc']['invalidCronExpressionErrorMessage']);
         }
         return $value;
     }
@@ -36,10 +36,10 @@ class DCACallbackHelper
             }
             ?>
             <p>
-                <strong><?php echo $GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['scriptToExecute'][0]; ?>:</strong> <?= $row['scriptToExecute'] ?>
+                <strong><?php echo $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['scriptToExecute'][0]; ?>:</strong> <?= $row['scriptToExecute'] ?>
             </p>
             <p>
-                <strong><?php echo $GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['cronExpression'][0]; ?>:</strong> <?= $row['cronExpression'] ?> (<?= $row['tstampLastRun'] <= 0 ? $GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['misc']['notYetRun'] : $GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['misc']['lastRunLabel'] . ' ' . date('d.m.Y H:i', $row['tstampLastRun']) ?>)
+                <strong><?php echo $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['cronExpression'][0]; ?>:</strong> <?= $row['cronExpression'] ?> (<?= $row['tstampLastRun'] <= 0 ? $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['misc']['notYetRun'] : $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['misc']['lastRunLabel'] . ' ' . date('d.m.Y H:i', $row['tstampLastRun']) ?>)
             </p>
             <?php
             if ($row['currentlyRunning']) {

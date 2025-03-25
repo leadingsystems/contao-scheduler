@@ -1,14 +1,13 @@
 <?php
 
-namespace Merconis\ContaoScheduler;
+namespace LeadingSystems\ContaoScheduler;
 
-use Contao\Backend;
-use Contao\BackendUser;
-use Contao\System;
+use Contao\DataContainer;
+use Contao\DC_Table;
 
 $GLOBALS['TL_DCA']['tl_ls_scheduler_job'] = array(
 	'config' => array(
-		'dataContainer' => 'Table',
+		'dataContainer' => DC_Table::class,
 		'sql' => array
 		(
 			'keys' => array
@@ -20,8 +19,8 @@ $GLOBALS['TL_DCA']['tl_ls_scheduler_job'] = array(
 	
 	'list' => array(
 		'sorting' => array(
-			'mode' => 1,
-			'flag' => 1,
+            'mode' => DataContainer::MODE_SORTED,
+			'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
 			'fields' => array('title'),
 			'disableGrouping' => false,
 			'panelLayout' => 'filter;sort,search,limit'
@@ -33,42 +32,15 @@ $GLOBALS['TL_DCA']['tl_ls_scheduler_job'] = array(
 		),
 		
 		'global_operations' => array(
-			'all' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['MSC']['all'],
-				'href'                => 'act=select',
-				'class'               => 'header_edit_all',
-				'attributes'          => 'onclick="Backend.getScrollOffset();" accesskey="e"'
-			)
+			'all'
 		),
 		
 		'operations' => array(
-			'edit' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['edit'],
-				'href'                => 'act=edit',
-				'icon'                => 'edit.gif'
-			),
-			'copy' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['copy'],
-				'href'                => 'act=copy',
-				'icon'                => 'copy.gif'
-			),
-			'delete' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['delete'],
-				'href'                => 'act=delete',
-				'icon'                => 'delete.gif',
-				'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
-			),
-            'toggle' => array (
-                'href'                => 'act=toggle&amp;field=active',
-                'icon'                => 'visible.svg'
-            ),
-			'show' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['show'],
-				'href'                => 'act=show',
-				'icon'                => 'show.gif'
-			)
-		
+			'edit',
+			'copy',
+			'delete',
+            'toggle',
+			'show'
 		)	
 	),
 	
@@ -91,7 +63,7 @@ $GLOBALS['TL_DCA']['tl_ls_scheduler_job'] = array(
 			'exclude' => true,
 			'search' => true,
 			'sorting' => true,
-			'flag' => 1,
+			'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
 			'inputType' => 'text',
 			'eval' => array(
 				'mandatory' => true,

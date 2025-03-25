@@ -1,11 +1,13 @@
 <?php
 
-namespace LeadingSystems\ContaoSchedulerBundle\Scheduler;
+namespace LeadingSystems\ContaoSchedulerBundle;
 
 use Cron\CronExpression;
-use LeadingSystems\ContaoSchedulerBundle\Scheduler\Exception\SchedulerExecutionResultException;
-use LeadingSystems\ContaoSchedulerBundle\Scheduler\Models\SchedulerJobModel;
-use LeadingSystems\ContaoSchedulerBundle\Scheduler\Traits\SchedulableTrait;
+use DateTime;
+use Exception;
+use LeadingSystems\ContaoSchedulerBundle\Exception\SchedulerExecutionResultException;
+use LeadingSystems\ContaoSchedulerBundle\Models\SchedulerJobModel;
+use LeadingSystems\ContaoSchedulerBundle\Traits\SchedulableTrait;
 
 class SchedulerDispatcher
 {
@@ -68,7 +70,7 @@ class SchedulerDispatcher
     private function runJob(SchedulerJobModel $job, bool $markAsRunning = true): string
     {
         if (!$job->scriptToExecute) {
-            throw new \Exception('No script to execute given for scheduler job "' . $job->title . '" (ID ' . $job->id . ')');
+            throw new Exception('No script to execute given for scheduler job "' . $job->title . '" (ID ' . $job->id . ')');
         }
 
         if ($job->currentlyRunning) {
@@ -97,12 +99,12 @@ class SchedulerDispatcher
             return $jobService->getExecutionResultMessage();
         }
 
-        throw new \Exception('The script to execute could not be found. No service with the FQCN "' . $job->scriptToExecute . '" seems to be registered.');
+        throw new Exception('The script to execute could not be found. No service with the FQCN "' . $job->scriptToExecute . '" seems to be registered.');
     }
 
     private function check_mustRun(SchedulerJobModel $job): bool
     {
-        $nextRunDate = CronExpression::factory($job->cronExpression)->getNextRunDate(\DateTime::createFromFormat('U', $job->tstampLastRun));
+        $nextRunDate = CronExpression::factory($job->cronExpression)->getNextRunDate(DateTime::createFromFormat('U', $job->tstampLastRun));
         return $nextRunDate->getTimestamp() <= time();
     }
 }

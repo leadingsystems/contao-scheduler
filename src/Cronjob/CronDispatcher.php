@@ -2,7 +2,7 @@
 
 namespace LeadingSystems\ContaoSchedulerBundle\Cronjob;
 
-use LeadingSystems\ContaoSchedulerBundle\Scheduler\SchedulerDispatcher;
+use LeadingSystems\ContaoSchedulerBundle\SchedulerDispatcher;
 
 class CronDispatcher
 {
