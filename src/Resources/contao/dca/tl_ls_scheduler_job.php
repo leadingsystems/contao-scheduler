@@ -45,7 +45,7 @@ $GLOBALS['TL_DCA']['tl_ls_scheduler_job'] = array(
     ),
 
     'palettes' => array(
-        'default' => '{title_legend},title;{description_legend},description;{execution_legend},active,cronExpression,tstampLastRun,scriptToExecute,currentlyRunning,lastExecutionResult'
+        'default' => '{title_legend},title;{description_legend},description;{execution_legend},active,cronExpression,tstampLastRun,scriptToExecute,currentlyRunning,lastExecutionResult;{notification_legend},notificationEmail,notificationRegex;'
     ),
 
     'fields' => array(
@@ -138,5 +138,30 @@ $GLOBALS['TL_DCA']['tl_ls_scheduler_job'] = array(
             'eval' => ['tl_class' => 'clr', 'allowHtml' => true],
             'sql' => "longtext NULL"
         ],
+
+        'notificationEmail' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['notificationEmail'],
+            'exclude' => true,
+            'inputType' => 'text',
+            'eval' => array(
+                'mandatory' => false,
+                'maxlength' => 255,
+                'tl_class'=>'w50'
+            ),
+            'sql' => "varchar(255) NULL"
+        ],
+
+        'notificationRegex' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['notificationRegex'],
+            'exclude' => true,
+            'inputType' => 'text',
+            'eval' => array(
+                'mandatory' => false,
+                'maxlength' => 255,
+                'tl_class'=>'w50',
+                'decodeEntities' => true
+            ),
+            'sql' => "varchar(255) NULL"
+        ]
     )
 );
