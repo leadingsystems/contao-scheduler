@@ -6,7 +6,7 @@ use Contao\System;
 use LeadingSystems\ContaoSchedulerBundle\Models\SchedulerJobModel;
 use Symfony\Component\HttpFoundation\Request;
 
-if (System::getContainer()->get('contao.routing.backend_matcher')->isBackendRequest(System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')))
+if (System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest(System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')))
 {
 	$GLOBALS['TL_CSS'][] = 'bundles/leadingsystemscontaoscheduler/be/css/style.css';
 }
