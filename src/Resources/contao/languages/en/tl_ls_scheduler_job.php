@@ -10,6 +10,8 @@ $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['scriptToExecute'] = array('Script to
 $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['currentlyRunning'] = array('Job is currently running', 'Manual adjustment is only necessary if a job was canceled manually or if it could not be completed due to a PHP timeout.');
 $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['tstampLastRun'] = array('Last executed');
 $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['lastExecutionResult'] = array('Result of the last execution');
+$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['notificationEmail'] = array('E-mail address for notifications', 'Multiple e-mail addresses can be separated by commas.');
+$GLOBALS['TL_LANG']['tl_merconis_custom_scheduler_job']['notificationRegex'] = array('Regular expression for notifications', 'Die Rückgabe des ausgeführten Skripts wird anhand dieses regulären Ausdrucks darauf geprüft, ob eine Benachrichtigung versandt werden soll.');
 
 /*
  * Legends
@@ -17,6 +19,7 @@ $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['lastExecutionResult'] = array('Resul
 $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['title_legend'] = 'Title';
 $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['description_legend'] = 'Description';
 $GLOBALS['TL_LANG']['tl_ls_scheduler_job']['execution_legend'] = 'Execution';
+$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['notification_legend'] = 'Notification';
 
 /*
  * Misc
