@@ -1,6 +1,6 @@
 <?php
 
-namespace LeadingSystems\MerconisCustomStarterbaseBundle\ContaoManager;
+namespace LeadingSystems\ContaoSchedulerBundle\ContaoManager;
 
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
@@ -19,7 +19,7 @@ class Plugin implements BundlePluginInterface
     public function getBundles(ParserInterface $parser)
     {
         return [
-            BundleConfig::create('LeadingSystems\MerconisCustomStarterbaseBundle\LeadingSystemsMerconisCustomStarterbaseBundle')
+            BundleConfig::create('LeadingSystems\ContaoSchedulerBundle\LeadingSystemsContaoSchedulerBundle')
                 ->setLoadAfter(['Contao\CoreBundle\ContaoCoreBundle'])
         ];
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace LeadingSystems\MerconisCustomStarterbaseBundle\Cronjob;
+namespace LeadingSystems\ContaoSchedulerBundle\Cronjob;
 
-use LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\SchedulerDispatcher;
+use LeadingSystems\ContaoSchedulerBundle\SchedulerDispatcher;
 
 class CronDispatcher
 {
