@@ -5,31 +5,31 @@ services:
     autoconfigure: true
     public: false
 
-  LeadingSystems\MerconisCustomStarterbaseBundle\Display\Common\Helper\Helper:
+  LeadingSystems\ContaoSchedulerBundle\Display\Common\Helper\Helper:
     public: true
     autowire: false
 
-  LeadingSystems\MerconisCustomStarterbaseBundle\Cronjob\CronDispatcher:
+  LeadingSystems\ContaoSchedulerBundle\Cronjob\CronDispatcher:
     arguments:
-      - '@LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\SchedulerDispatcher'
+      - '@LeadingSystems\ContaoSchedulerBundle\SchedulerDispatcher'
     tags:
       - { name: contao.cronjob, interval: minutely, method: dispatchScheduler }
 
-  LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\SchedulerDispatcher:
+  LeadingSystems\ContaoSchedulerBundle\SchedulerDispatcher:
     # must only be public during development so that it can be used in apiResource_hotwireSchedulerDispatcher
     public: true
     arguments:
-      - !tagged_iterator merconis_custom.schedulable
+      - !tagged_iterator ls_scheduler.schedulable
 
-  LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\Helpers\DCACallbackHelper:
+  LeadingSystems\ContaoSchedulerBundle\Helpers\DCACallbackHelper:
     arguments:
-      - !tagged_iterator merconis_custom.schedulable
+      - !tagged_iterator ls_scheduler.schedulable
     tags:
-      - { name: contao.callback, table: tl_merconis_custom_scheduler_job, target: fields.scriptToExecute.options, method: getScriptsForSchedulerExecutionAsOptions }
-      - { name: contao.callback, table: tl_merconis_custom_scheduler_job, target: fields.cronExpression.save, method: cronExpressionBackendFieldValidation }
-      - { name: contao.callback, table: tl_merconis_custom_scheduler_job, target: list.label.label, method: getSchedulerJobBackendListLabel }
+      - { name: contao.callback, table: tl_ls_scheduler_job, target: fields.scriptToExecute.options, method: getScriptsForSchedulerExecutionAsOptions }
+      - { name: contao.callback, table: tl_ls_scheduler_job, target: fields.cronExpression.save, method: cronExpressionBackendFieldValidation }
+      - { name: contao.callback, table: tl_ls_scheduler_job, target: list.label.label, method: getSchedulerJobBackendListLabel }
 
   # Schedulable services -->
-  LeadingSystems\MerconisCustomStarterbaseBundle\Dummy\DummySchedulable:
+  LeadingSystems\ContaoSchedulerBundle\Dummy\DummySchedulable:
     tags:
-      - { name: merconis_custom.schedulable }
+      - { name: ls_scheduler.schedulable }

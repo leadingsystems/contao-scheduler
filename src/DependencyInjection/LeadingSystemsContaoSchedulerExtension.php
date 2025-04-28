@@ -1,6 +1,6 @@
 <?php
 
-namespace LeadingSystems\MerconisCustomStarterbaseBundle\DependencyInjection;
+namespace LeadingSystems\ContaoSchedulerBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  *
  * @author Leading Systems GmbH
  */
-class LeadingSystemsMerconisCustomStarterbaseExtension extends Extension
+class LeadingSystemsContaoSchedulerExtension extends Extension
 {
 	/**
 	 * {@inheritdoc}

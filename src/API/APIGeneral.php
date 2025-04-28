@@ -1,5 +1,5 @@
 <?php
-namespace LeadingSystems\MerconisCustomStarterbaseBundle\API;
+namespace LeadingSystems\ContaoSchedulerBundle\API;
 
 use Contao\System;
 
@@ -42,7 +42,7 @@ class APIGeneral
 
     protected function apiResource_hotwireSchedulerDispatcher()
     {
-        $schedulerDispatcher = System::getContainer()->get('LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\SchedulerDispatcher');
+        $schedulerDispatcher = System::getContainer()->get('LeadingSystems\ContaoSchedulerBundle\SchedulerDispatcher');
         $schedulerDispatcher->dispatch(true);
 
         $this->obj_apiReceiver->success();

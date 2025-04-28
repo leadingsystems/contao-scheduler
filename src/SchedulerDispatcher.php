@@ -1,11 +1,18 @@
 <?php
 
-namespace LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler;
+namespace LeadingSystems\ContaoSchedulerBundle;
 
+use Contao\Idna;
+use Contao\Validator;
 use Cron\CronExpression;
-use LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\Exception\SchedulerExecutionResultException;
-use LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\Models\SchedulerJobModel;
-use LeadingSystems\MerconisCustomStarterbaseBundle\Scheduler\Traits\SchedulableTrait;
+use DateTime;
+use Exception;
+use Contao\Config;
+use Contao\StringUtil;
+use Contao\Email;
+use LeadingSystems\ContaoSchedulerBundle\Exception\SchedulerExecutionResultException;
+use LeadingSystems\ContaoSchedulerBundle\Models\SchedulerJobModel;
+use LeadingSystems\ContaoSchedulerBundle\Traits\SchedulableTrait;
 
 class SchedulerDispatcher
 {
@@ -33,7 +40,41 @@ class SchedulerDispatcher
             }
 
             $job->save();
+            $this->handleNotification($job);
         }
+    }
+
+    private function handleNotification(SchedulerJobModel $job): void
+    {
+        if (!$job->notificationEmail || ($job->notificationRegex && !preg_match($job->notificationRegex, $job->lastExecutionResult))) {
+            return;
+        }
+
+        $adminEmail = Config::get('adminEmail');
+        list($senderName, $senderEmail) = StringUtil::splitFriendlyEmail($adminEmail);
+
+        if (!Validator::isEmail(Idna::encodeEmail($senderEmail))) {
+            return;
+        }
+
+        $objEmail = new Email();
+        $objEmail->from = $senderEmail;
+        $objEmail->fromName = $senderName;
+        $objEmail->subject = 'Job notification: ' . $job->title;
+
+        $objEmail->html =
+            '<strong>Job:</strong> ' . $job->title . '<br>
+            <strong>AusgefÃ¼hrt:</strong> ' . date('d.m.Y H:i', $job->tstampLastRun). '<br><br>        
+            <strong>Meldung:</strong><br>' . nl2br($job->lastExecutionResult);
+
+        $notificationEmailAddresses = StringUtil::splitCsv($job->notificationEmail);
+        foreach ($notificationEmailAddresses as $key => $notificationEmailAddress) {
+            if (!Validator::isEmail(Idna::encodeEmail($notificationEmailAddress))) {
+                unset($notificationEmailAddresses[$key]);
+            }
+        }
+
+        $objEmail->sendTo(...$notificationEmailAddresses);
     }
 
     private function getServiceByFQCN(string $FQCN): mixed
@@ -68,7 +109,7 @@ class SchedulerDispatcher
     private function runJob(SchedulerJobModel $job, bool $markAsRunning = true): string
     {
         if (!$job->scriptToExecute) {
-            throw new \Exception('No script to execute given for scheduler job "' . $job->title . '" (ID ' . $job->id . ')');
+            throw new Exception('No script to execute given for scheduler job "' . $job->title . '" (ID ' . $job->id . ')');
         }
 
         if ($job->currentlyRunning) {
@@ -97,12 +138,16 @@ class SchedulerDispatcher
             return $jobService->getExecutionResultMessage();
         }
 
-        throw new \Exception('The script to execute could not be found. No service with the FQCN "' . $job->scriptToExecute . '" seems to be registered.');
+        throw new Exception('The script to execute could not be found. No service with the FQCN "' . $job->scriptToExecute . '" seems to be registered.');
     }
 
     private function check_mustRun(SchedulerJobModel $job): bool
     {
-        $nextRunDate = CronExpression::factory($job->cronExpression)->getNextRunDate(\DateTime::createFromFormat('U', $job->tstampLastRun));
-        return $nextRunDate->getTimestamp() <= time();
+        try {
+            $nextRunDate = CronExpression::factory($job->cronExpression)->getNextRunDate(DateTime::createFromFormat('U', $job->tstampLastRun));
+            return $nextRunDate->getTimestamp() <= time();
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
