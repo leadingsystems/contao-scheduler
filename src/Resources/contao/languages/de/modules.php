@@ -1,4 +1,4 @@
 <?php
 
-$GLOBALS['TL_LANG']['MOD']['ls_contaoScheduler'] = 'LS Contao Scheduler';
-$GLOBALS['TL_LANG']['MOD']['ls_contao_scheduler'] = ['Scheduler Jobs'];
+$GLOBALS['TL_LANG']['MOD']['ls_contao_scheduler'] = 'LS Contao Scheduler';
+$GLOBALS['TL_LANG']['MOD']['ls_contao_scheduler_job'] = ['Scheduler Jobs'];

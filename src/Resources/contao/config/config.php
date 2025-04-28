@@ -11,8 +11,8 @@ if (System::getContainer()->get('contao.routing.scope_matcher')->isBackendReques
 	$GLOBALS['TL_CSS'][] = 'bundles/leadingsystemscontaoscheduler/be/css/style.css';
 }
 
-$GLOBALS['BE_MOD']['ls_contaoScheduler'] = array(
-	'ls_contao_scheduler' => array(
+$GLOBALS['BE_MOD']['ls_contao_scheduler'] = array(
+	'ls_contao_scheduler_job' => array(
 		'tables' => array('tl_ls_scheduler_job')
 	),
 );
