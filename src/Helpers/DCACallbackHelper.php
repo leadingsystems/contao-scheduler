@@ -3,22 +3,46 @@
 namespace LeadingSystems\ContaoSchedulerBundle\Helpers;
 
 use Contao\DataContainer;
+use Contao\Input;
 use Cron\CronExpression;
+use Doctrine\DBAL\Connection;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DCACallbackHelper
 {
     private iterable $schedulableServices;
+    private Connection $connection;
+    private ContainerInterface $container;
 
-    public function __construct(iterable $schedulableServices)
+    public function __construct(iterable $schedulableServices, Connection $connection, ContainerInterface $container)
     {
         $this->schedulableServices = $schedulableServices;
+        $this->connection = $connection;
+        $this->container = $container;
     }
 
     public function cronExpressionBackendFieldValidation($value, DataContainer $dc): mixed
     {
+        $encodedScriptClass = Input::post('scriptToExecute');
+        $scriptClass = html_entity_decode($encodedScriptClass);
+
+        if ($scriptClass && $this->container->has($scriptClass)) {
+
+            $serviceInstance = $this->container->get($scriptClass);
+
+            if (method_exists($serviceInstance, 'getCronExpression')) {
+                return $serviceInstance->getCronExpression();
+            }
+        }
+
+        if (empty($value)) {
+            throw new \Exception($GLOBALS['TL_LANG']['ERR']['mandatory'] ?? 'Das Feld darf nicht leer sein.');
+        }
+
         if (!CronExpression::isValidExpression($value)) {
             throw new \Exception($GLOBALS['TL_LANG']['tl_ls_scheduler_job']['misc']['invalidCronExpressionErrorMessage']);
         }
+
         return $value;
     }
 
@@ -70,6 +94,24 @@ class DCACallbackHelper
         }
 
         return $arr_scriptFiles;
+    }
+
+    public function modifyPalette(DataContainer $dc = null): void
+    {
+        if (!$dc || !$dc->id) {
+            return;
+        }
+
+        $scriptClass = $this->connection->fetchOne(
+            "SELECT scriptToExecute FROM tl_ls_scheduler_job WHERE id = ?",
+            [$dc->id]
+        );
+
+        if ($scriptClass && method_exists($scriptClass, 'getCronExpression')) {
+            $palette = &$GLOBALS['TL_DCA']['tl_ls_scheduler_job']['palettes']['default'];
+
+            $palette = str_replace([',cronExpression', ';cronExpression'], '', $palette);
+        }
     }
 
 }

@@ -24,10 +24,13 @@ services:
   LeadingSystems\ContaoSchedulerBundle\Helpers\DCACallbackHelper:
     arguments:
       - !tagged_iterator ls_scheduler.schedulable
+      - '@database_connection'
+      - '@service_container'
     tags:
       - { name: contao.callback, table: tl_ls_scheduler_job, target: fields.scriptToExecute.options, method: getScriptsForSchedulerExecutionAsOptions }
       - { name: contao.callback, table: tl_ls_scheduler_job, target: fields.cronExpression.save, method: cronExpressionBackendFieldValidation }
       - { name: contao.callback, table: tl_ls_scheduler_job, target: list.label.label, method: getSchedulerJobBackendListLabel }
+      - { name: contao.callback, table: tl_ls_scheduler_job, target: config.onload, method: modifyPalette }
 
   # Schedulable services -->
   LeadingSystems\ContaoSchedulerBundle\Dummy\DummySchedulable:
