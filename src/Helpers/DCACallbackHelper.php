@@ -21,29 +21,36 @@ class DCACallbackHelper
         $this->container = $container;
     }
 
-    public function cronExpressionBackendFieldValidation($value, DataContainer $dc): mixed
+    public function cronExpressionOnBeforeSubmit($values): array
     {
-        $encodedScriptClass = Input::post('scriptToExecute');
-        $scriptClass = html_entity_decode($encodedScriptClass);
+        $encodedScriptClass = \Contao\Input::post('scriptToExecute');
+        $scriptClass = html_entity_decode((string) $encodedScriptClass);
+
+        $cronValue = \Contao\Input::post('cronExpression');
 
         if ($scriptClass && $this->container->has($scriptClass)) {
-
             $serviceInstance = $this->container->get($scriptClass);
 
             if (method_exists($serviceInstance, 'getCronExpression')) {
-                return $serviceInstance->getCronExpression();
+                $cronValue = $serviceInstance->getCronExpression();
             }
         }
 
-        if (empty($value)) {
-            throw new \Exception($GLOBALS['TL_LANG']['ERR']['mandatory'] ?? 'Das Feld darf nicht leer sein.');
+        if (empty($cronValue)) {
+            /*
+             * after we switch to an editable cronExpression field this will be saved at least one time without any
+             * chance to edit it so we cant throw an error here. We set a default value of one time a day.
+            */
+            $cronValue = "0 0 * * *";
         }
 
-        if (!CronExpression::isValidExpression($value)) {
+        if (!\Cron\CronExpression::isValidExpression($cronValue)) {
             throw new \Exception($GLOBALS['TL_LANG']['tl_ls_scheduler_job']['misc']['invalidCronExpressionErrorMessage']);
         }
 
-        return $value;
+        $values['cronExpression'] = $cronValue;
+
+        return $values;
     }
 
     public function getSchedulerJobBackendListLabel(array $row, string $label, DataContainer $dc, array $labels): string
