@@ -9,12 +9,6 @@ services:
     public: true
     autowire: false
 
-  LeadingSystems\ContaoSchedulerBundle\Cronjob\CronDispatcher:
-    arguments:
-      - '@LeadingSystems\ContaoSchedulerBundle\SchedulerDispatcher'
-    tags:
-      - { name: contao.cronjob, interval: minutely, method: dispatchScheduler }
-
   LeadingSystems\ContaoSchedulerBundle\SchedulerDispatcher:
     # must only be public during development so that it can be used in apiResource_hotwireSchedulerDispatcher
     public: true
