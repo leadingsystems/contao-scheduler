@@ -23,10 +23,10 @@ class DCACallbackHelper
 
     public function cronExpressionOnBeforeSubmit($values): array
     {
-        $encodedScriptClass = \Contao\Input::post('scriptToExecute');
+        $encodedScriptClass = Input::post('scriptToExecute');
         $scriptClass = html_entity_decode((string) $encodedScriptClass);
 
-        $cronValue = \Contao\Input::post('cronExpression');
+        $cronValue = Input::post('cronExpression');
 
         if ($scriptClass && $this->container->has($scriptClass)) {
             $serviceInstance = $this->container->get($scriptClass);
@@ -44,7 +44,7 @@ class DCACallbackHelper
             $cronValue = "0 0 * * *";
         }
 
-        if (!\Cron\CronExpression::isValidExpression($cronValue)) {
+        if (!CronExpression::isValidExpression($cronValue)) {
             throw new \Exception($GLOBALS['TL_LANG']['tl_ls_scheduler_job']['misc']['invalidCronExpressionErrorMessage']);
         }
 
