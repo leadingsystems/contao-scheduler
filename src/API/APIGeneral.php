@@ -48,4 +48,13 @@ class APIGeneral
         $this->obj_apiReceiver->success();
 		$this->obj_apiReceiver->set_data('Test: ' . __METHOD__);
     }
+
+    protected function apiResource_runSchedulerDispatcher()
+    {
+        $schedulerDispatcher = System::getContainer()->get('LeadingSystems\ContaoSchedulerBundle\SchedulerDispatcher');
+        $schedulerDispatcher->dispatch();
+
+        $this->obj_apiReceiver->success();
+        $this->obj_apiReceiver->set_data(__METHOD__);
+    }
 }

@@ -117,7 +117,7 @@ $GLOBALS['TL_DCA']['tl_ls_scheduler_job'] = array(
             'label' =>  &$GLOBALS['TL_LANG']['tl_ls_scheduler_job']['scriptToExecute'],
             'exclude'                 => true,
             'inputType'               => 'select',
-            'eval'					  => array('tl_class' => 'clr', 'includeBlankOption' => true),
+            'eval'					  => array('tl_class' => 'clr', 'includeBlankOption' => true,'submitOnChange' => true),
             'sql'                     => "varchar(255) NULL"
         ),
 
