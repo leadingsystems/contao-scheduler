@@ -3,23 +3,54 @@
 namespace LeadingSystems\ContaoSchedulerBundle\Helpers;
 
 use Contao\DataContainer;
+use Contao\Input;
 use Cron\CronExpression;
+use Doctrine\DBAL\Connection;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DCACallbackHelper
 {
     private iterable $schedulableServices;
+    private Connection $connection;
+    private ContainerInterface $container;
 
-    public function __construct(iterable $schedulableServices)
+    public function __construct(iterable $schedulableServices, Connection $connection, ContainerInterface $container)
     {
         $this->schedulableServices = $schedulableServices;
+        $this->connection = $connection;
+        $this->container = $container;
     }
 
-    public function cronExpressionBackendFieldValidation($value, DataContainer $dc): mixed
+    public function cronExpressionOnBeforeSubmit($values): array
     {
-        if (!CronExpression::isValidExpression($value)) {
+        $encodedScriptClass = Input::post('scriptToExecute');
+        $scriptClass = html_entity_decode((string) $encodedScriptClass);
+
+        $cronValue = Input::post('cronExpression');
+
+        if ($scriptClass && $this->container->has($scriptClass)) {
+            $serviceInstance = $this->container->get($scriptClass);
+
+            if (method_exists($serviceInstance, 'getCronExpression')) {
+                $cronValue = $serviceInstance->getCronExpression();
+            }
+        }
+
+        if (empty($cronValue)) {
+            /*
+             * after we switch to an editable cronExpression field this will be saved at least one time without any
+             * chance to edit it so we cant throw an error here. We set a default value of one time a day.
+            */
+            $cronValue = "0 0 * * *";
+        }
+
+        if (!CronExpression::isValidExpression($cronValue)) {
             throw new \Exception($GLOBALS['TL_LANG']['tl_ls_scheduler_job']['misc']['invalidCronExpressionErrorMessage']);
         }
-        return $value;
+
+        $values['cronExpression'] = $cronValue;
+
+        return $values;
     }
 
     public function getSchedulerJobBackendListLabel(array $row, string $label, DataContainer $dc, array $labels): string
@@ -70,6 +101,24 @@ class DCACallbackHelper
         }
 
         return $arr_scriptFiles;
+    }
+
+    public function modifyPalette(DataContainer $dc = null): void
+    {
+        if (!$dc || !$dc->id) {
+            return;
+        }
+
+        $scriptClass = $this->connection->fetchOne(
+            "SELECT scriptToExecute FROM tl_ls_scheduler_job WHERE id = ?",
+            [$dc->id]
+        );
+
+        if ($scriptClass && method_exists($scriptClass, 'getCronExpression')) {
+            $palette = &$GLOBALS['TL_DCA']['tl_ls_scheduler_job']['palettes']['default'];
+
+            $palette = str_replace([',cronExpression', ';cronExpression'], '', $palette);
+        }
     }
 
 }
