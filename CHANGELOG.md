@@ -1,6 +1,9 @@
 Leading Systems Contao Scheduler changelog
 ===========================================
 
+### 1.1.1 (2025-10-14)
+ * fix composer.json
+
 ### 1.1.0 (2025-10-10)
  * feature get cron expression via services.yml
  * remove Contao Cron Tag
