@@ -1,6 +1,9 @@
 Leading Systems Contao Scheduler changelog
 ===========================================
 
+### 1.1.2 (2025-11-14)
+ * fix UTC bug
+
 ### 1.1.1 (2025-10-14)
  * fix composer.json
 
