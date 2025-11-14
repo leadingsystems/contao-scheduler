@@ -5,7 +5,8 @@ namespace LeadingSystems\ContaoSchedulerBundle;
 use Contao\Idna;
 use Contao\Validator;
 use Cron\CronExpression;
-use DateTime;
+use DateTimeImmutable;
+use DateTimeZone;
 use Exception;
 use Contao\Config;
 use Contao\StringUtil;
@@ -144,7 +145,15 @@ class SchedulerDispatcher
     private function check_mustRun(SchedulerJobModel $job): bool
     {
         try {
-            $nextRunDate = CronExpression::factory($job->cronExpression)->getNextRunDate(DateTime::createFromFormat('U', $job->tstampLastRun));
+            $timezoneString = Config::get('timeZone'); //if nothing is set in localconfig 'UTC' is the default value
+            $contaoTimezone = new DateTimeZone($timezoneString);
+
+            $lastRunDate = (new DateTimeImmutable())
+                ->setTimestamp($job->tstampLastRun)
+                ->setTimezone($contaoTimezone);
+
+            $nextRunDate = CronExpression::factory($job->cronExpression)->getNextRunDate($lastRunDate);
+
             return $nextRunDate->getTimestamp() <= time();
         } catch (\Exception $e) {
             return false;
